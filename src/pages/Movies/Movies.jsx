@@ -1,12 +1,25 @@
-// import { useEffect} from "react";
-// import api from "../../api";
+import { useEffect, useState } from "react";
+import api from "../../api";
+import MoviesList from "../../components/MoviesList/MoviesList";
 
 const Movies = () => {
-  // useEffect(() => {
-  //   api.fetchAllMovies();
-  // }, []);
-  //npx json-server --watch db.json --port 8000
-  return <div>Movies</div>;
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const data = await api.fetchAllMovies();
+        if (data === undefined) {
+          return;
+        }
+        setMovies(data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    fetchMovies();
+  }, []);
+  return <>{movies.length > 0 && <MoviesList movies={movies} />}</>;
 };
 
 export default Movies;

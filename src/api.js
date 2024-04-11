@@ -5,7 +5,6 @@ axios.defaults.baseURL = `http://localhost:8000/movies`;
 const fetchAllMovies = async () => {
   try {
     const { data } = await axios.get();
-    console.log(data);
     return data;
   } catch (err) {
     if (err.code !== "ERR_CANCELED") {
@@ -28,7 +27,6 @@ const fetchMovieDetails = async (movieId) => {
 const addMovie = async (newMovieData) => {
   try {
     const { data } = await axios.post(newMovieData);
-    console.log(data);
     return data;
   } catch (err) {
     if (err.code !== "ERR_CANCELED") {
@@ -40,7 +38,6 @@ const addMovie = async (newMovieData) => {
 const editMovie = async (newMovieData) => {
   try {
     const { data } = await axios.patch(newMovieData);
-    console.log(data);
     return data;
   } catch (err) {
     if (err.code !== "ERR_CANCELED") {

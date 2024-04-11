@@ -12,7 +12,7 @@ const AppLayout = () => {
   } = theme.useToken();
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: "100vh"}}>
       <Header
         style={{
           display: "flex",

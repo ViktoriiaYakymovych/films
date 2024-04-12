@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import api from "../../api";
 import { useParams } from "react-router-dom";
 import Rating from "../../components/Rating/Rating";
+import { MovieDetailsSection } from "./MovieDetails.styled";
 
 const MovieDetails = () => {
-  const [movieDetails, setMovieDetails] = useState({});
+  const [movieDetails, setMovieDetails] = useState(null);
 
   const { movieId } = useParams();
 
@@ -27,25 +28,29 @@ const MovieDetails = () => {
     fetchMovieDetails(movieId);
   }, [movieId]);
   return (
-    <div>
-      <div>
-        <span>Description: </span>
-        <p>{movieDetails.description}</p>
-      </div>
-      <div>
-        <span>Actors: </span>
-        <p>{movieDetails.actors}</p>
-      </div>
-      <div>
-        <span>Director: </span>
-        <p>{movieDetails.director}</p>
-      </div>
-      <div>
-        <span>Genre: </span>
-        <p>{movieDetails.genre}</p>
-      </div>
-      {movieDetails.rating && <Rating value={movieDetails.rating} />}
-    </div>
+    <>
+      {movieDetails && (
+        <MovieDetailsSection>
+          <div>
+            <span>Description: </span>
+            <p>{movieDetails.description}</p>
+          </div>
+          <div>
+            <span>Actors: </span>
+            <p>{movieDetails.actors.join(", ")}</p>
+          </div>
+          <div>
+            <span>Director: </span>
+            <p>{movieDetails.director}</p>
+          </div>
+          <div>
+            <span>Genre: </span>
+            <p>{movieDetails.genre.join(", ")}</p>
+          </div>
+          {movieDetails.rating && <Rating value={movieDetails.rating} />}
+        </MovieDetailsSection>
+      )}
+    </>
   );
 };
 

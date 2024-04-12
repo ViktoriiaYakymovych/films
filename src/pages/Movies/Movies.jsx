@@ -6,6 +6,7 @@ import MoviesList from "../../components/MoviesList/MoviesList";
 import Filter from "../../components/Filter/Filter";
 import { ModalWindow } from "../../components/Modal/Modal";
 import AddMovieForm from "../../components/AddMovieForm/AddMovieForm";
+import { Button, MoviesSection, MoviesSerchWrap } from "./Movies.styled";
 
 const Movies = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,11 +18,13 @@ const Movies = () => {
   }, [dispatch]);
 
   return (
-    <>
-      <Filter />
-      <button type="button" onClick={() => setIsModalOpen(true)}>
-        Add Movie
-      </button>
+    <MoviesSection>
+      <MoviesSerchWrap>
+        <Filter />
+        <Button type="button" onClick={() => setIsModalOpen(true)}>
+          Add Movie
+        </Button>
+      </MoviesSerchWrap>
       {movies.length > 0 && <MoviesList movies={movies} />}
       <ModalWindow
         isOpen={isModalOpen}
@@ -31,7 +34,7 @@ const Movies = () => {
       >
         <AddMovieForm />
       </ModalWindow>
-    </>
+    </MoviesSection>
   );
 };
 

@@ -28,7 +28,8 @@ const handleFetchAllMovies = (state, action) => {
 const handleAddMovie = (state, action) => {
   state.isLoading = false;
   state.error = null;
-  state.movies.push(action.payload);
+  console.log(action.payload);
+  // state.movies.push(action.payload);
 };
 
 const handleEditMovie = (state, action) => {

@@ -7,6 +7,7 @@ import EditMovieForm from "../EditMovieForm/EditMovieForm";
 import { List, CardWrap, BtnWrap } from "./MovieCard.styled";
 import { StyledLink } from "../../pages/Home/Home.styled";
 import { Button } from "../../pages/Movies/Movies.styled";
+import img from "../../assets/hero.jpg";
 
 const MovieCard = ({ movie, isFavorite, onAddFavorite, onRemoveFavorite }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +18,12 @@ const MovieCard = ({ movie, isFavorite, onAddFavorite, onRemoveFavorite }) => {
 
   return (
     <List>
-      <img src={movie.image} alt={movie.title} width={210} height={310} />
+      <img
+        src={movie.image !== "" ? movie.image : img}
+        alt={movie.title}
+        width={210}
+        height={310}
+      />
       <CardWrap>
         <p>{movie.title}</p>
         <Rating value={movie.rating} />

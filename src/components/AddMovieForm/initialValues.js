@@ -4,7 +4,7 @@ const initialValues = {
   rating: 10,
   release_date: "",
   genre: [],
-  actors: [],
+  actors: '',
   director: "",
   image: "",
 };

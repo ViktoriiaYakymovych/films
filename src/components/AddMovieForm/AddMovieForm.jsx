@@ -1,17 +1,19 @@
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Checkbox,
-  DatePicker,
+  // DatePicker,
   Form,
   Input,
   InputNumber,
   Upload,
 } from "antd";
+import { useFormik } from "formik";
 
-// import { addMovie } from "../../redux/operations";
-// import { selectMovies } from "../../redux/selectors";
+import { addMovie } from "../../redux/operations";
+import validationSchema from "./validationSchema";
+import initialValues from "./initialValues";
 
 const { TextArea } = Input;
 const normFile = (e) => {
@@ -21,32 +23,105 @@ const normFile = (e) => {
   return e?.fileList;
 };
 const AddMovieForm = () => {
-  // const movies = useSelector(selectMovies);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // const addNewMovie = (newMovie) => {
-  //   console.log(newMovie);
-  //   // dispatch(addMovie(newMovie));
-  // };
-
-  const onFinish = (e) => {
-    console.log(e);
+  const checkStatus = (value) => {
+    if (formik.touched[value] && !formik.errors[value]) {
+      return "success";
+    } else if (formik.errors[value]) {
+      return "error";
+    }
+    return "";
   };
+
+  const handleSubmit = (values) => {
+    const actors = [values.actors]
+    const newMovie = {
+      ...values,
+      actors,
+      id: String(Date.now()),
+    };
+    dispatch(addMovie(newMovie));
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: handleSubmit,
+  });
+
   return (
-    <Form onFinish={onFinish}>
-      <Form.Item label="Title">
-        <Input />
+    <Form onFinish={formik.handleSubmit}>
+      <Form.Item
+        label="Title"
+        help={formik.errors.title}
+        validateStatus={checkStatus("title")}
+        hasFeedback
+      >
+        <Input
+          placeholder="Title..."
+          value={formik.values.title}
+          onChange={formik.handleChange}
+          name="title"
+          required
+          onBlur={formik.handleBlur}
+        />
       </Form.Item>
-      <Form.Item label="Description">
-        <TextArea rows={4} />
+      <Form.Item
+        label="Description"
+        help={formik.errors.description}
+        validateStatus={checkStatus("description")}
+        hasFeedback
+      >
+        <TextArea
+          rows={4}
+          placeholder="Type description..."
+          value={formik.values.description}
+          onChange={formik.handleChange}
+          name="description"
+          required
+          onBlur={formik.handleBlur}
+        />
       </Form.Item>
-      <Form.Item label="Rating">
-        <InputNumber max={10} min={1} defaultValue={10} />
+      <Form.Item
+        label="Rating"
+        help={formik.errors.rating}
+        validateStatus={checkStatus("rating")}
+        hasFeedback
+      >
+        <InputNumber
+          max={10}
+          min={1}
+          defaultValue={10}
+          value={formik.values.rating}
+          // onChange={formik.handleChange}
+          name="rating"
+          required
+          onBlur={formik.handleBlur}
+        />
       </Form.Item>
-      <Form.Item label="Release date">
-        <DatePicker />
+      <Form.Item
+        label="Release date"
+        help={formik.errors.release_date}
+        validateStatus={checkStatus("release_date")}
+      >
+        <Input
+          placeholder="2021-12-15..."
+          value={formik.values.release_date}
+          onChange={formik.handleChange}
+          name="release_date"
+          required
+          onBlur={formik.handleBlur}
+        />
+        {/* <DatePicker /> */}
       </Form.Item>
-      <Form.Item label="Genre" name="genre" valuePropName="checked">
+      <Form.Item
+        label="Genre"
+        name="genre"
+        valuePropName="checked"
+        help={formik.errors.genre}
+        hasFeedback
+      >
         <Checkbox.Group>
           <Checkbox value="drama">Drama</Checkbox>
           <Checkbox value="action">Action</Checkbox>
@@ -55,11 +130,35 @@ const AddMovieForm = () => {
           <Checkbox value="adventure">Adventure</Checkbox>
         </Checkbox.Group>
       </Form.Item>
-      <Form.Item label="Actors">
-        <Input />
+      <Form.Item
+        label="Actors"
+        help={formik.errors.actors}
+        validateStatus={checkStatus("actors")}
+        hasFeedback
+      >
+        <Input
+          placeholder="Actors..."
+          value={formik.values.actors}
+          onChange={formik.handleChange}
+          name="actors"
+          required
+          onBlur={formik.handleBlur}
+        />
       </Form.Item>
-      <Form.Item label="Director">
-        <Input />
+      <Form.Item
+        label="Director"
+        help={formik.errors.director}
+        validateStatus={checkStatus("director")}
+        hasFeedback
+      >
+        <Input
+          placeholder="Director..."
+          value={formik.values.director}
+          onChange={formik.handleChange}
+          name="director"
+          required
+          onBlur={formik.handleBlur}
+        />
       </Form.Item>
       <Form.Item
         label="Upload"
@@ -93,50 +192,3 @@ const AddMovieForm = () => {
 };
 
 export default AddMovieForm;
-
-// import { Formik, ErrorMessage, Field, Form } from "formik";
-// import schema from "./schema";
-// import initialValues from "./initialValues";
-
-// {
-//   /* <Formik
-//   initialValues={initialValues}
-//   validationSchema={schema}
-//   onSubmit={(values, actions) => {
-//     addNewMovie({ ...values, id: Date.now() });
-//     actions.resetForm();
-//   }}
-// >
-//   <Form>
-//     <label>
-//       Title
-//       <Field name="title" type="text" placeholder="Title..." />
-//       <ErrorMessage component="div" name="title" />
-//     </label>
-//     <label>
-//       Description
-//       <Field
-//         name="description"
-//         type="text"
-//         as="textarea"
-//         rows="5"
-//         cols="33"
-//         placeholder="Description..."
-//       />
-//       <ErrorMessage component="div" name="description" />
-//     </label>
-//     <label>
-//       Rating
-//       <Field
-//         name="rating"
-//         type="number"
-//         placeholder="Rating..."
-//         min={1} // Мінімальне значення
-//         max={10} // Максимальне значення
-//       />
-//       <ErrorMessage component="div" name="rating" />
-//     </label>
-//     <button type="submit">Add new movie</button>
-//   </Form>
-// </Formik>; */
-// }

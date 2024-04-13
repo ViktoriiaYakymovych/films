@@ -19,7 +19,6 @@ export const addMovie = createAsyncThunk(
   "movies/addMovie",
   async (newMovieData, thunkAPI) => {
     try {
-      console.log(newMovieData);
       const { data } = await axios.post('',newMovieData);
       return data;
     } catch (err) {
